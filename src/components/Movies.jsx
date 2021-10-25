@@ -15,12 +15,18 @@ export class Movies extends Component {
   render() {
     // eslint-disable-next-line no-restricted-globals
     if (this.state.movies.length === 0)
-      return <p className="container">There are no movies in the database</p>;
+      return (
+        <p className="container pt-5 fs-5">
+          There are no movies in the database
+        </p>
+      );
     return (
       <React.Fragment>
         <table class="table container mt-5">
           <thead>
-            <p>Showing {this.state.movies.length} movies in the database</p>
+            <p className="fs-5">
+              Showing {this.state.movies.length} movies in the database
+            </p>
             <tr>
               <th scope="col">Title</th>
               <th scope="col">Genre</th>
