@@ -15,7 +15,8 @@ export class Movies extends Component {
   };
 
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [{ name: "All Genres" }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres });
   }
 
   handleLike = (movie) => {
@@ -31,10 +32,11 @@ export class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    this.setState({ selectedGenre: genre });
+    this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
   render() {
+    console.log(this.state.selectedGenre);
     const { length: count } = this.state.movies;
     const {
       pageSize,
@@ -42,6 +44,7 @@ export class Movies extends Component {
       movies: allMovies,
       selectedGenre,
     } = this.state;
+    console.log(selectedGenre);
 
     if (this.state.movies.length === 0)
       return (
@@ -50,11 +53,12 @@ export class Movies extends Component {
         </p>
       );
 
-    const filtered = selectedGenre
-      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-      : allMovies;
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const movies = paginate(filtered, currentPage, pageSize);
 
     return (
       <React.Fragment>
@@ -66,9 +70,9 @@ export class Movies extends Component {
           />
           <table className="table container mt-5 ms-5">
             <thead>
-              <p className="fs-5">
+              <span className="fs-5">
                 Showing {filtered.length} movies in the database
-              </p>
+              </span>
               <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Genre</th>
