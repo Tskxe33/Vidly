@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FaAngleDown } from "react-icons/fa";
+import { FaAngleUp } from "react-icons/fa";
 
 class TableHeader extends Component {
   raiseSort = (path) => {
@@ -13,16 +15,16 @@ class TableHeader extends Component {
     this.props.onSort(sortColumn);
   };
 
+  renderSortIcon = (column) => {
+    const { sortColumn } = this.props;
+    if (column.path !== sortColumn.path) return null;
+    if (sortColumn.order === "asc") return <FaAngleUp />;
+    return <FaAngleDown />;
+  };
+
   render() {
     return (
       <thead>
-        <tr>
-          <th>
-            <p>
-              There are {this.props.filtered.length} movies in the database.
-            </p>
-          </th>
-        </tr>
         <tr>
           {this.props.columns.map((column) => (
             <th
@@ -30,7 +32,7 @@ class TableHeader extends Component {
               onClick={() => this.raiseSort(column.path)}
               style={{ cursor: "pointer" }}
             >
-              {column.label}
+              {column.label} {this.renderSortIcon(column)}
             </th>
           ))}
         </tr>

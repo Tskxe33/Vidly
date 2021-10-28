@@ -45,8 +45,7 @@ export class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
-    // const { length: count } = this.state.movies;
+  getPagedData = () => {
     const {
       pageSize,
       currentPage,
@@ -54,14 +53,6 @@ export class Movies extends Component {
       sortColumn,
       selectedGenre,
     } = this.state;
-
-    if (this.state.movies.length === 0)
-      return (
-        <p className="container pt-5 fs-5">
-          There are no movies in the database
-        </p>
-      );
-
     const filtered =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
@@ -71,8 +62,28 @@ export class Movies extends Component {
 
     const movies = paginate(sorted, currentPage, pageSize);
 
+    return { totalCount: filtered.length, data: movies };
+  };
+
+  render() {
+    // const { length: count } = this.state.movies;
+    const { pageSize, currentPage, sortColumn } = this.state;
+
+    if (this.state.movies.length === 0)
+      return (
+        <p className="container pt-5 fs-5">
+          There are no movies in the database
+        </p>
+      );
+
+    const { totalCount, data: movies } = this.getPagedData();
+
     return (
       <React.Fragment>
+        <p className="container mt-5 fs-5">
+          There are {totalCount} movies in the database.
+        </p>
+
         <div className="d-flex align-items-center justify-content-center container">
           <ListGroup
             items={this.state.genres}
@@ -85,13 +96,12 @@ export class Movies extends Component {
             movies={movies}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
-            filtered={filtered}
             onSort={this.handleSort}
           />
         </div>
 
         <Pagination
-          itemsCount={filtered.length}
+          itemsCount={totalCount}
           pageSize={pageSize}
           currentPage={currentPage}
           onPageChange={this.HandlePageChange}

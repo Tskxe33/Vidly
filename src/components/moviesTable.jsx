@@ -1,13 +1,17 @@
 import React from "react";
 import { deleteMovie } from "../services/fakeMovieService.js";
 import Like from "./common/like.jsx";
-import TableBody from "./common/tableBody.jsx";
-
-import TableHeader from "./common/tableHeader.jsx";
-
+import Table from "./common/table.jsx";
+import { Link } from "react-router-dom";
 class MoviesTable extends React.Component {
   columns = [
-    { path: "title", label: "Title" },
+    {
+      path: "title",
+      label: "Title",
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      ),
+    },
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
@@ -33,19 +37,14 @@ class MoviesTable extends React.Component {
     },
   ];
   render() {
-    const { movies, filtered, onSort, sortColumn } = this.props;
+    const { movies, onSort, sortColumn } = this.props;
     return (
-      <React.Fragment>
-        <table className="table container mt-5 ms-5">
-          <TableHeader
-            filtered={filtered}
-            columns={this.columns}
-            sortColumn={sortColumn}
-            onSort={onSort}
-          />
-          <TableBody data={movies} columns={this.columns} />
-        </table>
-      </React.Fragment>
+      <Table
+        columns={this.columns}
+        data={movies}
+        sortColumn={sortColumn}
+        onSort={onSort}
+      />
     );
   }
 }
