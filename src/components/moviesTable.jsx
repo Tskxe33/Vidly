@@ -1,8 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { deleteMovie } from "../services/fakeMovieService.js";
 import Like from "./common/like.jsx";
 import Table from "./common/table.jsx";
-import { Link } from "react-router-dom";
 class MoviesTable extends React.Component {
   columns = [
     {

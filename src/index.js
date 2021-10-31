@@ -4,8 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
-// import "font-awesome/css/font-awesome.css";
-import Movies from "./components/Movies.jsx";
 import App from "./App";
 
 ReactDOM.render(
