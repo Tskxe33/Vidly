@@ -27,7 +27,8 @@ class MoviesTable extends React.Component {
         <button
           className="btn btn-danger"
           onClick={() => {
-            deleteMovie(movie._id);
+            // deleteMovie(movie._id);
+            this.props.onDelete(movie._id);
             this.props.refreshMovies();
           }}
         >
@@ -37,7 +38,7 @@ class MoviesTable extends React.Component {
     },
   ];
   render() {
-    const { movies, onSort, sortColumn } = this.props;
+    const { movies, onSort, sortColumn, onDelete } = this.props;
     return (
       <Table
         columns={this.columns}
